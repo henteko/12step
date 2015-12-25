@@ -12,6 +12,6 @@ int putc(unsigned char c)
 int puts(unsigned char *str)
 {
 	while (*str)
-	  putsc(*(str++));
+	  putc(*(str++));
 	return 0;
 }

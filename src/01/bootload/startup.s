@@ -2,6 +2,7 @@
 	.section .text
 	.global _start
 # 	.type   _start,@function
+_start:
 	mov.l	#0xffff00,sp
 	jsr		@_main
 	

@@ -94,7 +94,10 @@ int putxval(unsigned long value, int column)
 	p = buf + sizeof(buf) -1;
 	*(p--) = '\0';
 	
-	while (!value && column) {
+	if (!value && !column)
+	  column++;
+	
+	while (value || column) {
 		*(p--) = "0123456789abcdef"[value & 0xf];
 		value >>= 4;
 		if (column) column--;

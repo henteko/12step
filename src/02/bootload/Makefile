@@ -57,3 +57,6 @@ write :			$(TARGET).mot
 
 clean :			
 				rm -f $(OBJS) $(TARGET) $(TARGET).elf $(TARGET).mot
+
+connect:		
+				cu -l $(H8WRITE_SERDEV)

@@ -68,10 +68,4 @@ Vagrant.configure(2) do |config|
   #   sudo apt-get update
   #   sudo apt-get install -y apache2
   # SHELL
-
-  # USB Setting
-  config.vm.provider :virtualbox do |vb|
-    vb.customize ['modifyvm', :id, '--usb', 'on']
-    vb.customize ['usbfilter', 'add', '0', '--target', :id, '--name', 'QinHeng', '--vendorid', '0x1a86']
-  end
 end

@@ -55,4 +55,5 @@ image : 		$(TARGET).mot
 write :			$(TARGET).mot
 				$(H8WRITE) -3069 -f20 $(TARGET).mot $(H8WRITE_SERDEV)
 
-clean :			rm -f $(OBJS) $(TARGET) $(TARGET).elf $(TARGET).mot
+clean :			
+				rm -f $(OBJS) $(TARGET) $(TARGET).elf $(TARGET).mot

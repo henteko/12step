@@ -13,10 +13,12 @@ OBJDUMP = $(BINDIR)/$(ADDNAME)objdump
 RANLIB = $(BINDIR)/$(ADDNAME)ranlib
 STRIP = $(BINDIR)/$(ADDNAME)strip
 
+H8WRITE_SERDEV = /dev/tty.usbserial
+
 OBJS = startup.o main.o interrupt.o
 OBJS += lib.o serial.o
 
-OBJS += kozos.o syscall.o test08_1.o
+OBJS += kozos.o syscall.o test09_1.o test09_2.o test09_3.o
 
 TARGET = kozos
 
@@ -51,3 +53,9 @@ $(TARGET) :		$(OBJS)
 
 clean :			
 				rm -f $(OBJS) $(TARGET) $(TARGET).elf
+
+mv :			
+				../../../tools/osx/kz_xmodem ./kozos $(H8WRITE_SERDEV)
+
+connect:		
+				cu -l $(H8WRITE_SERDEV)

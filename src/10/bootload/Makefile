@@ -13,27 +13,27 @@ OBJDUMP = $(BINDIR)/$(ADDNAME)objdump
 RANLIB = $(BINDIR)/$(ADDNAME)ranlib
 STRIP = $(BINDIR)/$(ADDNAME)strip
 
+H8WRITE = ../../../tools/osx/kz_h8write
+
 H8WRITE_SERDEV = /dev/tty.usbserial
 
-OBJS = startup.o main.o interrupt.o
-OBJS += lib.o serial.o
+OBJS = vector.o startup.o intr.o main.o interrupt.o
+OBJS += lib.o serial.o xmodem.o elf.o
 
-OBJS += kozos.o syscall.o memory.o test10_1.o
-
-TARGET = kozos
+TARGET = kzload
 
 CFLAGS = -Wall -mh -nostdinc -nostdlib -fno-builtin
 #CFLAGS += -mint32
 CFLAGS += -I.
 #CFLAGS += -g
 CFLAGS += -Os
-CFLAGS += -DKOZOS
+CFLAGS += -DKZLOAD
 
 LFLAGS = -static -T ld.scr -L.
 
 .SUFFIXES: .c .o
 .SUFFIXES: .s .o
-.SUFFIXES: .S .o
+.SIFFIXES: .S .o
 
 all :			$(TARGET)
 
@@ -51,11 +51,16 @@ $(TARGET) :		$(OBJS)
 .S.o :			$<
 				$(CC) -c $(CFLAGS) $<
 
-clean :			
-				rm -f $(OBJS) $(TARGET) $(TARGET).elf
+$(TARGET).mot : $(TARGET)
+				$(OBJCOPY) -O srec $(TARGET) $(TARGET).mot
 
-mv :			
-				../../../tools/osx/kz_xmodem ./kozos $(H8WRITE_SERDEV)
+image : 		$(TARGET).mot
+
+write :			$(TARGET).mot
+				$(H8WRITE) -3069 -f20 $(TARGET).mot $(H8WRITE_SERDEV)
+
+clean :			
+				rm -f $(OBJS) $(TARGET) $(TARGET).elf $(TARGET).mot
 
 connect:		
 				cu -l $(H8WRITE_SERDEV)
